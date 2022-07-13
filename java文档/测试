@@ -1,0 +1,12 @@
+这里写一段代码
+
+    @Override
+    protected void processMessage(Integer factoryId, Message<?> message) {
+        log.info("进入InfluxdbDataGranter...");
+
+        String msg = String.valueOf(message.getPayload());
+        // 将传入的json数据转为Map
+        Map<String, Object> srcMetaMap = MqttDataUtil.buildData(msg);
+        // 存入influxdb
+        influxDBService.influxDbBuild("factory" + "_" + factoryId).insert("fdata", null, srcMetaMap);
+    }
